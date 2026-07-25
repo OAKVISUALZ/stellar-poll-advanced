@@ -4,7 +4,7 @@
 
 A real-time voting dApp built on Stellar Soroban smart contracts that allows users to deploy a Live Poll contract, create polls, vote, and see results update in real-time.
 
-![CI](https://github.com/YOUR_USERNAME/stellar-poll/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/OAKVISUALZ/stellar-poll-advanced/actions/workflows/ci.yml/badge.svg)
 
 ## Live Demo
 
