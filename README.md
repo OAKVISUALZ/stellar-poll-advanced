@@ -1,24 +1,53 @@
 # StellarPoll - Real-time Voting on Stellar Testnet
 
+**Stellar Journey to Mastery — Level 3 Orange Belt Submission**
+
 A real-time voting dApp built on Stellar Soroban smart contracts that allows users to deploy a Live Poll contract, create polls, vote, and see results update in real-time.
 
-Built as part of the [Stellar Journey to Mastery](https://stellarjourneytomastery.com/) - Level 2 Yellow Belt Challenge.
+![CI](https://github.com/YOUR_USERNAME/stellar-poll/actions/workflows/ci.yml/badge.svg)
 
 ## Live Demo
 
 🔗 **https://stellar-poll.netlify.app/**
 
-## Features
+## What We Built
 
-- **Multi-Wallet Integration** - Connect via Freighter and other Stellar wallets using Stellar Wallets Kit
-- **Smart Contract Deployment** - Deploy a Soroban Live Poll contract directly from the frontend to testnet
-- **Contract Interaction** - Create polls, vote, close polls, and query results from the frontend
-- **Real-time State Sync** - Poll results auto-refresh every 15 seconds with manual refresh
-- **Transaction Status Tracking** - Live pending/success/error states with Stellar Expert links
-- **Error Handling** - Handles wallet not found, transaction rejected, and insufficient balance errors
-- **Responsive Design** - Clean dark-themed UI that works on desktop and mobile
+### Core Features
 
+- **Multi-Wallet Integration** — Connect via Freighter and other Stellar wallets using Stellar Wallets Kit
+- **Smart Contract Deployment** — Deploy a Soroban Live Poll contract directly from the frontend to testnet
+- **Contract Interaction** — Create polls, vote, close polls, and query results from the frontend
+- **Real-time State Sync** — Poll results auto-refresh every 15 seconds with manual refresh
+- **Transaction Status Tracking** — Live pending/success/error states with Stellar Expert links
+- **Error Handling** — Handles wallet not found, transaction rejected, and insufficient balance errors
+- **Responsive Design** — Clean dark-themed UI that works on desktop and mobile
 
+### Level 3 Features
+
+- **Inter-contract Communication** — VotingBadge contract awards non-transferable NFT badges to voters, demonstrating cross-contract calls
+- **12 Contract Unit Tests** — Comprehensive Rust tests covering all contract functions, edge cases, and events
+- **7 Frontend Unit Tests** — Vitest tests for utility functions and component logic
+- **CI/CD Pipeline** — GitHub Actions workflow runs contract tests, frontend tests, lint, and build on every push/PR
+- **Soroban Event Streaming** — Contract emits structured events for CREATE, VOTE, and CLOSE operations
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    StellarPoll Frontend                  │
+│            React 19 + TypeScript + Vite                 │
+├─────────────┬───────────────┬───────────────────────────┤
+│  Wallet     │  Contract     │  Event                    │
+│  Manager    │  Client       │  Streamer                 │
+├─────────────┴───────────────┴───────────────────────────┤
+│            Stellar SDK (soroban-rpc + Horizon)           │
+├─────────────────────────────────────────────────────────┤
+│                  Stellar Testnet                         │
+├──────────────────────┬──────────────────────────────────┤
+│   LivePoll Contract  │   VotingBadge Contract           │
+│   (polls + voting)   │   (inter-contract badges)        │
+└──────────────────────┴──────────────────────────────────┘
+```
 
 ### Wallet Options Available
 ![Wallet Connection]
@@ -31,23 +60,17 @@ Built as part of the [Stellar Journey to Mastery](https://stellarjourneytomaster
 
 
 
-
-
 ### Poll Creation
 ![Poll Creator](screenshots/poll-creator.png)
 
 ### Voting & Results
 <img width="1366" height="686" alt="image" src="https://github.com/user-attachments/assets/8244ec03-56eb-4e2a-93a7-371cab701eaf" />
 
-## Smart Contract
+## Smart Contracts
 
-The project includes a Soroban smart contract (`contract/src/lib.rs`) deployed to Stellar Testnet.
+### LivePoll Contract (`contract/src/lib.rs`)
 
-**Contract Address:** `[DEPLOYED_CONTRACT_ADDRESS]`
-
-> Run the app and click "Deploy Contract" to deploy your own instance, or use a pre-deployed one.
-
-### Contract Functions
+The primary contract managing poll lifecycle on Stellar Testnet.
 
 | Function | Description |
 |---|---|
@@ -60,19 +83,57 @@ The project includes a Soroban smart contract (`contract/src/lib.rs`) deployed t
 | `get_poll_count()` | Get total number of polls |
 | `close_poll(caller, poll_id)` | Close a poll (creator only) |
 
-### Events
+**Events emitted:**
+- `CREATE` — New poll created with question and options
+- `VOTE` — Vote cast with voter address, poll ID, and option index
+- `CLOSE` — Poll closed by its creator
 
-- `CREATE` - Emitted when a new poll is created
-- `VOTE` - Emitted when a vote is cast
-- `CLOSE` - Emitted when a poll is closed
+### VotingBadge Contract (`voting-badge-contract/src/lib.rs`)
+
+Inter-contract communication demo: awards non-transferable voting badges to users who participate in polls.
+
+| Function | Description |
+|---|---|
+| `initialize(admin)` | Set contract admin |
+| `award_badge(admin, user, poll_id)` | Award a voting badge to a user |
+| `has_badge(user)` | Check if user holds a badge |
+| `get_holder_count()` | Get total badge holders |
+
+## Tests
+
+### Contract Tests (12 passing)
+
+```bash
+cd contract && cargo test
+```
+
+Tests cover: initialization, double-init panic, poll creation, vote casting, duplicate vote prevention, poll closing, unauthorized close rejection, voting on closed polls, multiple voters, poll counting, and event emission.
+
+### VotingBadge Tests (6 passing)
+
+```bash
+cd voting-badge-contract && cargo test
+```
+
+Tests cover: initialization, badge awarding, holder counting, badge checking, multi-user scenarios, and event emission.
+
+### Frontend Tests (7 passing)
+
+```bash
+npm test
+```
+
+Tests cover: address shortening, custom character count, Stellar address validation, invalid address rejection, vote percentage calculations, and zero-vote edge cases.
 
 ## Tech Stack
 
-- **React 19** + **TypeScript** + **Vite**
-- **Tailwind CSS v4** for styling
-- **@creit.tech/stellar-wallets-kit** for multi-wallet support
-- **@stellar/stellar-sdk** v16 for Stellar blockchain and Soroban interaction
-- **Soroban SDK** v21 for smart contract (Rust/WASM)
+- **React 19** + **TypeScript** + **Vite** — Frontend framework
+- **Tailwind CSS v4** — Styling
+- **Vitest** + **@testing-library/jest-dom** — Frontend testing
+- **@creit.tech/stellar-wallets-kit** — Multi-wallet support
+- **@stellar/stellar-sdk** v16 — Stellar blockchain and Soroban interaction
+- **Soroban SDK** v22 — Smart contract framework (Rust/WASM)
+- **GitHub Actions** — CI/CD pipeline
 
 ## Prerequisites
 
@@ -101,13 +162,17 @@ The project includes a Soroban smart contract (`contract/src/lib.rs`) deployed t
    cd ..
    ```
 
-4. **Start the development server**
+4. **Run tests**
+   ```bash
+   cd contract && cargo test && cd ..
+   cd voting-badge-contract && cargo test && cd ..
+   npm test
+   ```
+
+5. **Start the development server**
    ```bash
    npm run dev
    ```
-
-5. **Open in browser**
-   Navigate to `https://stellar-poll.netlify.app/`
 
 6. **Get testnet XLM**
    Use the [Stellar Testnet Faucet](https://friendbot.stellar.org/) to fund your wallet:
@@ -126,32 +191,43 @@ The project includes a Soroban smart contract (`contract/src/lib.rs`) deployed t
 
 ## Error Types Handled
 
-1. **Wallet Not Found** - When no Stellar wallet extension is installed
-2. **Transaction Rejected** - When the user rejects a transaction in their wallet
-3. **Insufficient Balance** - When the user doesn't have enough XLM for fees
+1. **Wallet Not Found** — When no Stellar wallet extension is installed
+2. **Transaction Rejected** — When the user rejects a transaction in their wallet
+3. **Insufficient Balance** — When the user doesn't have enough XLM for fees
 
 ## Project Structure
 
 ```
 src/
   lib/
-    stellar.ts          # Wallet connection and payment operations
-    contract.ts         # Soroban contract interaction (deploy, call, query)
+    stellar.ts              # Wallet connection and balance operations
+    contract.ts             # Soroban contract interaction (deploy, call, query)
   components/
-    WalletConnection.tsx  # Wallet connect/disconnect UI
-    BalanceDisplay.tsx    # XLM and asset balance display
-    ContractSetup.tsx     # Contract deployment UI
-    PollCreator.tsx       # Create new poll form
-    PollList.tsx          # List of polls with auto-refresh
-    PollCard.tsx          # Individual poll with voting and results
-    TransactionStatus.tsx # Transaction pending/success/error display
-  App.tsx               # Main application component
-  main.tsx              # App entry point
-  index.css             # Tailwind CSS + custom styles
+    WalletConnection.tsx    # Wallet connect/disconnect UI
+    BalanceDisplay.tsx      # XLM and asset balance display
+    ContractSetup.tsx       # Contract deployment UI
+    PollCreator.tsx         # Create new poll form
+    PollList.tsx            # List of polls with auto-refresh
+    PollCard.tsx            # Individual poll with voting and results
+    TransactionStatus.tsx   # Transaction pending/success/error display
+  test/
+    contract.test.ts        # Frontend unit tests (7 tests)
+    setup.ts                # Vitest test setup
+  App.tsx                   # Main application component
+  main.tsx                  # App entry point
+  index.css                 # Tailwind CSS + custom styles
 contract/
   src/
-    lib.rs              # Soroban smart contract (Rust)
-  Cargo.toml            # Contract dependencies
+    lib.rs                  # LivePoll Soroban smart contract (Rust)
+  Cargo.toml                # Contract dependencies (soroban-sdk v22)
+  Cargo.lock                # Locked deps (ed25519-dalek v2.2.0)
+voting-badge-contract/
+  src/
+    lib.rs                  # VotingBadge inter-contract demo (Rust)
+  Cargo.toml                # Badge contract dependencies
+.github/
+  workflows/
+    ci.yml                  # GitHub Actions CI/CD pipeline
 ```
 
 ## License
