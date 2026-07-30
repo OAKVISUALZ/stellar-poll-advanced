@@ -1,435 +1,279 @@
-StellarPoll 
+# StellarPoll - Real-time Voting on Stellar Testnet
 
-Real-Time Decentralized Voting on the Stellar Testnet
+Stellar Journey to Mastery — Level 3 Orange Belt Submission
 
-Stellar Journey to Mastery — Level 3 (Orange Belt) Submission
-
-StellarPoll is a decentralized voting application powered by Stellar Soroban smart contracts. It enables users to deploy a live polling contract, create polls, cast secure on-chain votes, and view results that update automatically in real time.
-
-Built with React, TypeScript, Soroban, and the Stellar Wallets Kit, the application demonstrates end-to-end decentralized application development—from wallet integration and smart contract deployment to inter-contract communication and automated testing.
+A real-time voting dApp built on Stellar Soroban smart contracts that allows users to deploy a Live Poll contract, create polls, vote, and see results update in real-time.
 
 
----
-
-🌐 Live Demo
-
-Application: https://sparkly-squirrel-aeb32f.netlify.app/
-
-Demo Video: https://www.loom.com/share/aa755a8b332f408a85f79d2671170350
-
-Contract: https://stellar.expert/explorer/testnet/contract/CBYI6EQHVO6DUPOWFWVAYWZMTVNH3433YG45XTDJP2C6HKRK7N2KY
-
-Sample Transaction: https://stellar.expert/explorer/testnet/tx/3b13c663436f8f7c336e8005029b592430b9cf4b455a48fa7853433ec34d0262
+Live Demo
+ 
+ 
+- **Application:** [https://sparkly-squirrel-aeb32f.netlify.app/](https://sparkly-squirrel-aeb32f.netlify.app/)
+ 
+- **Demo Video:** [https://www.loom.com/share/aa755a8b332f408a85f79d2671170350](https://www.loom.com/share/aa755a8b332f408a85f79d2671170350)
+ 
+- **Contract:** [https://stellar.expert/explorer/testnet/contract/CBYI6EQHVO6DUPOWFWVAYWZMTVNH3433YG45XTDJP2C6HKRK7N2KY](https://stellar.expert/explorer/testnet/contract/CBYI6EQHVO6DUPOWFWVAYWZMTVNH3433YG45XTDJP2C6HKRK7N2KY)
+ 
+- **Sample Transaction:** [https://stellar.expert/explorer/testnet/tx/3b13c663436f8f7c336e8005029b592430b9cf4b455a48fa7853433ec34d0262](https://stellar.expert/explorer/testnet/tx/3b13c663436f8f7c336e8005029b592430b9cf4b455a48fa7853433ec34d0262)
+ 
 
 
 
+What We Built
+
+Core Features
+
+Multi-Wallet Integration — Connect via Freighter and other Stellar wallets using Stellar Wallets Kit
+
+Smart Contract Deployment — Deploy a Soroban Live Poll contract directly from the frontend to testnet
+
+Contract Interaction — Create polls, vote, close polls, and query results from the frontend
+
+Real-time State Sync — Poll results auto-refresh every 15 seconds with manual refresh
+
+Transaction Status Tracking — Live pending/success/error states with Stellar Expert links
+
+Error Handling — Handles wallet not found, transaction rejected, and insufficient balance errors
+
+Responsive Design — Clean dark-themed UI that works on desktop and mobile
 
 
----
+Level 3 Features
 
-✨ Features
+Inter-contract Communication — VotingBadge contract awards non-transferable NFT badges to voters, demonstrating cross-contract calls
 
-Core Functionality
+12 Contract Unit Tests — Comprehensive Rust tests covering all contract functions, edge cases, and events
 
-🔐 Multi-wallet authentication using Stellar Wallets Kit
+7 Frontend Unit Tests — Vitest tests for utility functions and component logic
 
-🚀 Deploy Soroban smart contracts directly from the frontend
+CI/CD Pipeline — GitHub Actions workflow runs contract tests, frontend tests, lint, and build on every push/PR
 
-📊 Create and manage polls on-chain
-
-🗳️ One-wallet-one-vote enforcement
-
-📈 Live vote tally updates with automatic refresh
-
-🔄 Manual synchronization of contract state
-
-⏳ Transaction status tracking with direct Stellar Expert links
-
-⚠️ Comprehensive error handling for wallet and blockchain interactions
-
-📱 Responsive interface optimized for desktop and mobile devices
+Soroban Event Streaming — Contract emits structured events for CREATE, VOTE, and CLOSE operations
 
 
+Architecture
 
----
-
-Level 3 Requirements
-
-This submission includes all required Level 3 capabilities:
-
-✅ Inter-contract communication
-
-✅ Soroban event emission
-
-✅ Comprehensive Rust unit tests
-
-✅ Frontend unit tests
-
-✅ Continuous Integration with GitHub Actions
-
-
-Inter-Contract Communication
-
-A dedicated VotingBadge contract awards non-transferable NFT voting badges whenever a user successfully participates in a poll, demonstrating cross-contract interaction within Soroban.
-
-Event Streaming
-
-The LivePoll contract emits structured blockchain events for:
-
-CREATE
-
-VOTE
-
-CLOSE
-
-
-These events enable external applications and indexers to monitor poll activity in real time.
-
-
----
-
-🏗️ Architecture
-
-┌─────────────────────────────────────────────────────────┐
-│                  StellarPoll Frontend                   │
-│             React 19 + TypeScript + Vite               │
-├─────────────┬───────────────┬───────────────────────────┤
-│ Wallet Kit  │ Contract API  │ Event Stream             │
-├─────────────┴───────────────┴───────────────────────────┤
-│        Stellar SDK (Soroban RPC + Horizon)             │
-├─────────────────────────────────────────────────────────┤
-│                 Stellar Testnet                        │
-├──────────────────────┬──────────────────────────────────┤
-│   LivePoll Contract  │   VotingBadge Contract          │
-│ Poll Management      │ NFT Badge Rewards              │
+┌─────────────────────────────────────────────────────────┐  
+│                    StellarPoll Frontend                  │  
+│            React 19 + TypeScript + Vite                 │  
+├─────────────┬───────────────┬───────────────────────────┤  
+│  Wallet     │  Contract     │  Event                    │  
+│  Manager    │  Client       │  Streamer                 │  
+├─────────────┴───────────────┴───────────────────────────┤  
+│            Stellar SDK (soroban-rpc + Horizon)           │  
+├─────────────────────────────────────────────────────────┤  
+│                  Stellar Testnet                         │  
+├──────────────────────┬──────────────────────────────────┤  
+│   LivePoll Contract  │   VotingBadge Contract           │  
+│   (polls + voting)   │   (inter-contract badges)        │  
 └──────────────────────┴──────────────────────────────────┘
 
+Wallet Options Available
 
----
-
-📸 Application Preview
-
-Wallet Connection
-
-<img width="1366" height="597" alt="Wallet" src="https://github.com/user-attachments/assets/ee133b8a-f2e0-4b76-aab5-ace44c5791e0" /><img width="1366" height="581" alt="Wallet" src="https://github.com/user-attachments/assets/beb7af1b-c403-456a-a338-4dd0792bab43" /><img width="1366" height="636" alt="Wallet" src="https://github.com/user-attachments/assets/c012013a-e92c-4547-9b11-a9d6de58257f" /><img width="1366" height="688" alt="Wallet" src="https://github.com/user-attachments/assets/e6da8f4d-5082-4b2e-b4d7-a7854445ef75" /><img width="1366" height="606" alt="Wallet" src="https://github.com/user-attachments/assets/d265c55a-df1c-4e2c-b12d-00949b987d74" />
----
+![Wallet Connection]
+<img width="1366" height="597" alt="image" src="https://github.com/user-attachments/assets/ee133b8a-f2e0-4b76-aab5-ace44c5791e0" />
+<img width="1366" height="581" alt="image" src="https://github.com/user-attachments/assets/beb7af1b-c403-456a-a338-4dd0792bab43" />
+<img width="1366" height="636" alt="image" src="https://github.com/user-attachments/assets/c012013a-e92c-4547-9b11-a9d6de58257f" />
+<img width="1366" height="688" alt="image" src="https://github.com/user-attachments/assets/e6da8f4d-5082-4b2e-b4d7-a7854445ef75" />
+<img width="1366" height="606" alt="image" src="https://github.com/user-attachments/assets/d265c55a-df1c-4e2c-b12d-00949b987d74" />
 
 Poll Creation
 
 
 
+Voting & Results
 
----
+<img width="1366" height="686" alt="image" src="https://github.com/user-attachments/assets/8244ec03-56eb-4e2a-93a7-371cab701eaf" />  Smart Contracts
 
-Voting & Live Results
+LivePoll Contract (contract/src/lib.rs)
 
-<img width="1366" height="686" alt="Voting" src="https://github.com/user-attachments/assets/8244ec03-56eb-4e2a-93a7-371cab701eaf" />
----
+The primary contract managing poll lifecycle on Stellar Testnet.
 
-📜 Smart Contracts
+Function	Description
 
-LivePoll Contract
-
-Responsible for the complete poll lifecycle.
-
-Function	Purpose
-
-initialize()	Initializes the contract
-create_poll()	Creates a new poll
-vote()	Records a user's vote
-get_poll()	Retrieves poll details
-get_results()	Returns vote counts
-has_voted()	Checks whether a user has voted
-get_poll_count()	Returns total polls created
-close_poll()	Closes an active poll
+initialize()	Initialize the contract
+create_poll(creator, question, options)	Create a new poll with 2-10 options
+vote(voter, poll_id, option_index)	Cast a vote (one vote per wallet per poll)
+get_poll(poll_id)	Get full poll data
+get_results(poll_id)	Get vote counts
+has_voted(poll_id, voter)	Check if a wallet has voted
+get_poll_count()	Get total number of polls
+close_poll(caller, poll_id)	Close a poll (creator only)
 
 
-Events
+Events emitted:
 
-Event	Description
+CREATE — New poll created with question and options
 
-CREATE	Poll created
-VOTE	Vote submitted
-CLOSE	Poll closed
+VOTE — Vote cast with voter address, poll ID, and option index
 
-
-
----
-
-VotingBadge Contract
-
-Demonstrates inter-contract communication by rewarding voters with a non-transferable participation badge.
-
-Function	Purpose
-
-initialize()	Sets contract administrator
-award_badge()	Awards a badge to a voter
-has_badge()	Checks badge ownership
-get_holder_count()	Returns total badge holders
+CLOSE — Poll closed by its creator
 
 
+VotingBadge Contract (voting-badge-contract/src/lib.rs)
 
----
+Inter-contract communication demo: awards non-transferable voting badges to users who participate in polls.
 
-🧪 Testing
+Function	Description
 
-Smart Contract Tests
-
-LivePoll
-
-cd contract
-cargo test
-
-12 passing tests covering:
-
-Initialization
-
-Poll creation
-
-Voting
-
-Duplicate vote prevention
-
-Closing polls
-
-Authorization
-
-Event emission
-
-Edge cases
+initialize(admin)	Set contract admin
+award_badge(admin, user, poll_id)	Award a voting badge to a user
+has_badge(user)	Check if user holds a badge
+get_holder_count()	Get total badge holders
 
 
+Tests
 
----
+Contract Tests (12 passing)
 
-VotingBadge
+cd contract && cargo test
 
-cd voting-badge-contract
-cargo test
+Tests cover: initialization, double-init panic, poll creation, vote casting, duplicate vote prevention, poll closing, unauthorized close rejection, voting on closed polls, multiple voters, poll counting, and event emission.
 
-6 passing tests covering:
+VotingBadge Tests (6 passing)
 
-Initialization
+cd voting-badge-contract && cargo test
 
-Badge issuance
+Tests cover: initialization, badge awarding, holder counting, badge checking, multi-user scenarios, and event emission.
 
-Badge ownership
-
-Holder counting
-
-Multiple users
-
-Event emission
-
-
-
----
-
-Frontend
+Frontend Tests (7 passing)
 
 npm test
 
-7 passing tests covering:
+Tests cover: address shortening, custom character count, Stellar address validation, invalid address rejection, vote percentage calculations, and zero-vote edge cases.
 
-Address utilities
+Tech Stack
 
-Validation
+React 19 + TypeScript + Vite — Frontend framework
 
-Vote percentage calculations
+Tailwind CSS v4 — Styling
 
-Zero-vote scenarios
+Vitest + @testing-library/jest-dom — Frontend testing
 
-Component logic
+@creit.tech/stellar-wallets-kit — Multi-wallet support
 
+@stellar/stellar-sdk v16 — Stellar blockchain and Soroban interaction
 
+Soroban SDK v22 — Smart contract framework (Rust/WASM)
 
----
+GitHub Actions — CI/CD pipeline
 
-🛠️ Technology Stack
-
-Frontend
-
-React 19
-
-TypeScript
-
-Vite
-
-Tailwind CSS v4
-
-
-Blockchain
-
-Soroban SDK v22
-
-Stellar SDK v16
-
-Stellar Wallets Kit
-
-
-Testing
-
-Rust Unit Tests
-
-Vitest
-
-Testing Library
-
-
-DevOps
-
-GitHub Actions
-
-Continuous Integration
-
-
-
----
-
-🚀 Getting Started
 
 Prerequisites
 
-Node.js 18+
+Node.js v18+
 
-Rust
+Rust with wasm32-unknown-unknown target (for contract builds)
 
-wasm32-unknown-unknown target
-
-Freighter Wallet (Testnet)
+Freighter Browser Extension installed and set to Testnet mode
 
 
+Setup Instructions
 
----
+1. Clone the repository
 
-Installation
-
-Clone the repository:
-
-git clone https://github.com/YOUR_USERNAME/stellar-poll.git
+git clone https://github.com/YOUR_USERNAME/stellar-poll.git  
 cd stellar-poll
 
-Install dependencies:
+
+2. Install dependencies
 
 npm install
 
-Build the smart contract:
 
-cd contract
+3. Build the smart contract (pre-built WASM is included in public/)
 
-cargo build --release --target wasm32-unknown-unknown
-
-cp target/wasm32-unknown-unknown/release/live_poll.wasm ../public/live_poll.wasm
-
-Run all tests:
-
-cd contract
-cargo test
-
-cd ../voting-badge-contract
-cargo test
-
+cd contract  
+cargo build --release --target wasm32-unknown-unknown  
+cp target/wasm32-unknown-unknown/release/live_poll.wasm ../public/live_poll.wasm  
 cd ..
+
+
+4. Run tests
+
+cd contract && cargo test && cd ..  
+cd voting-badge-contract && cargo test && cd ..  
 npm test
 
-Start the application:
+
+5. Start the development server
 
 npm run dev
 
-Fund your wallet using Friendbot:
+
+6. Get testnet XLM
+Use the Stellar Testnet Faucet to fund your wallet:
 
 curl "https://friendbot.stellar.org?addr=YOUR_PUBLIC_KEY"
 
 
----
 
-📖 Usage
+How to Use
 
-1. Connect a Stellar wallet.
-
-
-2. Deploy the LivePoll smart contract.
+1. Click Connect Wallet and select your wallet (Freighter recommended)
 
 
-3. Create a poll with 2–10 options.
+2. Click Deploy Contract to deploy the Live Poll contract to testnet
 
 
-4. Cast votes from connected wallets.
+3. Create a Poll with a question and 2-10 options
 
 
-5. Monitor live results.
+4. Vote on any active poll by clicking an option
 
 
-6. View all transactions through Stellar Expert.
+5. Watch results update in real-time (auto-refreshes every 15s)
 
+
+6. View all transactions on Stellar Expert
 
 
 
----
+Error Types Handled
 
-⚠️ Error Handling
+1. Wallet Not Found — When no Stellar wallet extension is installed
 
-The application gracefully handles common blockchain interaction errors, including:
 
-Wallet not installed
+2. Transaction Rejected — When the user rejects a transaction in their wallet
 
-User-rejected transactions
 
-Insufficient XLM balance
-
-Invalid contract state
-
-Failed contract execution
+3. Insufficient Balance — When the user doesn't have enough XLM for fees
 
 
 
----
+Project Structure
 
-📂 Project Structure
+src/  
+  lib/  
+    stellar.ts              # Wallet connection and balance operations  
+    contract.ts             # Soroban contract interaction (deploy, call, query)  
+  components/  
+    WalletConnection.tsx    # Wallet connect/disconnect UI  
+    BalanceDisplay.tsx      # XLM and asset balance display  
+    ContractSetup.tsx       # Contract deployment UI  
+    PollCreator.tsx         # Create new poll form  
+    PollList.tsx            # List of polls with auto-refresh  
+    PollCard.tsx            # Individual poll with voting and results  
+    TransactionStatus.tsx   # Transaction pending/success/error display  
+  test/  
+    contract.test.ts        # Frontend unit tests (7 tests)  
+    setup.ts                # Vitest test setup  
+  App.tsx                   # Main application component  
+  main.tsx                  # App entry point  
+  index.css                 # Tailwind CSS + custom styles  
+contract/  
+  src/  
+    lib.rs                  # LivePoll Soroban smart contract (Rust)  
+  Cargo.toml                # Contract dependencies (soroban-sdk v22)  
+  Cargo.lock                # Locked deps (ed25519-dalek v2.2.0)  
+voting-badge-contract/  
+  src/  
+    lib.rs                  # VotingBadge inter-contract demo (Rust)  
+  Cargo.toml                # Badge contract dependencies  
+.github/  
+  workflows/  
+    ci.yml                  # GitHub Actions CI/CD pipeline
 
-src/
-├── components/
-├── lib/
-├── test/
-├── App.tsx
-├── main.tsx
+License
 
-contract/
-├── src/
-└── Cargo.toml
-
-voting-badge-contract/
-├── src/
-└── Cargo.toml
-
-.github/
-└── workflows/
-
-
----
-
-🎯 Highlights
-
-Fully decentralized voting application
-
-Soroban smart contract deployment from the frontend
-
-Cross-contract communication
-
-NFT voting badges
-
-Real-time blockchain state synchronization
-
-Comprehensive automated testing
-
-CI/CD with GitHub Actions
-
-Mobile-friendly user interface
-
-
-
----
-
-📄 License
-
-Licensed under the MIT License.
+MIT
