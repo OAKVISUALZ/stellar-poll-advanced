@@ -9,7 +9,7 @@ A real-time voting dApp built on Stellar Soroban smart contracts that allows use
 ## Live Demo
 
 🔗 **https://stellar-poll.netlify.app/**
-https://stellar.expert/explorer/testnet/tx/d924cdbbeaa534a9c4c5a8270a29761c37bef3571790b67f3ded4ce5978969e5
+Transaction: https://stellar.expert/explorer/testnet/tx/3b13c663436f8f7c336e8005029b592430b9cf4b455a48fa7853433ec34d0262
 
 ## What We Built
 
