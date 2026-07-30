@@ -11,6 +11,7 @@ A real-time voting dApp built on Stellar Soroban smart contracts that allows use
 🔗 **https://sparkly-squirrel-aeb32f.netlify.app/**
 Transaction: https://stellar.expert/explorer/testnet/tx/3b13c663436f8f7c336e8005029b592430b9cf4b455a48fa7853433ec34d0262
 Contract: https://stellar.expert/explorer/testnet/contract/CBYI6EQHVO6DUPOWFWVAYWZCBZMTVNH3433YG45XTDJP2C6HKRK7N2KY
+Demo video link: https://www.loom.com/share/aa755a8b332f408a85f79d2671170350
 
 ## What We Built
 
